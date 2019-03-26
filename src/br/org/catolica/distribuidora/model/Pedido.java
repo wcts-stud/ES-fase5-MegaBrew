@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Pedido {
 		private int id;
-		private Item item;
+		private List<Item> itens;
 		private double valorTotal;
 		
 		
@@ -14,12 +14,14 @@ public class Pedido {
 		public void setId(int id) {
 			this.id = id;
 		}
-		public Item getItem() {
-			return item;
+
+		public List<Item> getItens() {
+			return itens;
 		}
-		public void setItem(Item item) {
-			this.item = item;
+		public void setItens(List<Item> itens) {
+			this.itens = itens;
 		}
+		
 		public double getValorTotal() {
 			return valorTotal;
 		}

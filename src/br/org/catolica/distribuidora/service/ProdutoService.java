@@ -6,11 +6,14 @@ import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
 
 import br.org.catolica.distribuidora.dao.PedidoDAO;
+import br.org.catolica.distribuidora.exception.semEstoqueException;
+import br.org.catolica.distribuidora.exception.semItensNoPedidoException;
 import br.org.catolica.distribuidora.model.Pedido;
 import br.org.catolica.distribuidora.model.Produto;
 import br.org.catolica.distribuidora.model.Usuario;
-@WebService
 
+
+@WebService
 public class ProdutoService {
 	private static final String CAT = "cat";
 	
@@ -23,6 +26,10 @@ public class ProdutoService {
 	}
 	
 	
+	/*
+	 * INSERÇÕES
+	 */
+	
 	public void inserirProduto(@WebParam (name="cerveja") Produto produto, 
 	@WebParam (name="usuario", header=true) Usuario usuario)  throws UsuarioNaoAutenticadoException {
 		
@@ -33,25 +40,35 @@ public class ProdutoService {
 			throw new UsuarioNaoAutenticadoException();
 		}	
 		
-	}	
-
-	public Produto pesquisarProduto(@WebParam (name="codigoDoProduto", header=true) int cod) { 
-		return PedidoDAO.pesquisaProdutoPorId(cod);
 	}
 	
-	
+
 	public void criarPedido(@WebParam (name="pedido") Pedido pedido, 
-	@WebParam (name="usuario", header=true) Usuario usuario)  throws UsuarioNaoAutenticadoException {
+	@WebParam (name="usuario", header=true) Usuario usuario)  throws UsuarioNaoAutenticadoException, semItensNoPedidoException, semEstoqueException {
 		if(CAT.equals(usuario.getLogin()) && 
 				CAT.equals(usuario.getPassword())) {
 			
-			if( pedido.getItem().getQtd() >  )
-				PedidoDAO.CriarPedido(pedido);
+			//if( pedido.getItem().getQtd() >  )
+			PedidoDAO.CriarPedido(pedido) ;
 			
 			
 		}else {
 			throw new UsuarioNaoAutenticadoException();
 		}	
+	}
+	
+	
+	
+	/*
+	 * PESQUISAS
+	 */
+
+	public Produto pesquisarProdutoPorCodigo(@WebParam (name="codigoDoProduto", header=true) int cod) { 
+		return PedidoDAO.pesquisaProdutoPorId(cod);
+	}
+
+	public Produto pesquisaProdutoPorDesc(@WebParam (name="descricaoDoProduto", header=true) String descricao) { 
+		return PedidoDAO.pesquisaProdutoPorDesc(descricao);
 	}
 	
 	

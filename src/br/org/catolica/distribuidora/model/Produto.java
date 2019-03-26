@@ -9,8 +9,8 @@ public class Produto {
 	private String UnidadeMedida;
 	private Double volume;
 	private int cod;
-	private int quantidade;
-	private Double preco;
+	private double quantidade;
+	private double preco;
 	private List<String> ingradientes;
 	
 	
@@ -58,16 +58,18 @@ public class Produto {
 	public void setVolume(Double volume) {
 		this.volume = volume;
 	}
-	public int getQuantidade() {
+
+	
+	public double getQuantidade() {
 		return quantidade;
 	}
-	public void setQuantidade(int quantidade) {
+	public void setQuantidade(double quantidade) {
 		this.quantidade = quantidade;
 	}
-	public Double getPreco() {
+	public double getPreco() {
 		return preco;
 	}
-	public void setPreco(Double preco) {
+	public void setPreco(double preco) {
 		this.preco = preco;
 	}
 	

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import br.org.catolica.distribuidora.exception.semEstoqueException;
+import br.org.catolica.distribuidora.exception.semItensNoPedidoException;
+import br.org.catolica.distribuidora.model.Item;
 import br.org.catolica.distribuidora.model.Pedido;
 import br.org.catolica.distribuidora.model.Produto;
 
@@ -30,13 +33,13 @@ public class PedidoDAO {
 		produto.setUnidadeMedida("ml");
 		produto.setVolume(350.0);
 		produto.setQuantidade(15);
-		produto.setPreco(24.54);		
+		produto.setPreco(50.0);
 		produto.setIngradientes(Arrays.asList("Trigo"));
 		
 		Produtos.add(produto);
 		
 		Produto produto2 = new Produto();
-		produto.setCod(2);
+		produto2.setCod(2);
 		produto2.setNome("Stella");
 		produto2.setValidade("05/12/2020");
 		produto2.setDescricao("A Stella Artois é uma cerveja pilsner lager premium, que "
@@ -45,12 +48,12 @@ public class PedidoDAO {
 		produto2.setUnidadeMedida("ml");
 		produto2.setVolume(600.0);
 		produto2.setQuantidade(50);
-		produto2.setPreco(44.00);				
+		produto2.setPreco(50.00);				
 		produto2.setIngradientes(Arrays.asList("Trigo", "Água", ", Malte", "Lúpulo"));
 		Produtos.add(produto2);
 		
 		Produto produto3 = new Produto();
-		produto.setCod(3);
+		produto3.setCod(3);
 		produto3.setNome("Dado Bier");
 		produto3.setValidade("03/08/2020");
 		produto3.setDescricao("A Dado Bier é a primeira cervejaria brasileira a seguir "
@@ -89,14 +92,64 @@ public class PedidoDAO {
 		return p;
 	}
 	
+	// Pesquisa pela descricao do produto
+	public static Produto pesquisaProdutoPorDesc(String descricao) {		
+		Produto p = new Produto();
+		
+		for(int i=0; i < Produtos.size(); i++) {
+			
+			if ( Produtos.get(i).getDescricao().toLowerCase().contains(descricao.toLowerCase()) ) {
+				p = Produtos.get(i);		
+			}
+			
+		}		
+		return p;
+	}
+	
 	
 	
 	public static List<Pedido>ObterPedidos(){
 		return Pedidos;
 	}
 
-	public static void CriarPedido(Pedido pedido) {
-		Pedidos.add(pedido);		
+	
+	public static void CriarPedido(Pedido pedido) throws semItensNoPedidoException, semEstoqueException {
+
+		double total = 0;
+		
+		
+		if( pedido.getItens().size() > 0 ) {
+			
+			// Verifica itens do pedido
+			for (Item i : pedido.getItens()) {
+				
+				// Verifica estoque e valor dos produtos da lista de produtos
+				for(Produto p : Produtos) {
+					
+					// Compara o produto do item com os produtos da lista
+					if (i.getProduto().getCod() == p.getCod()) {
+						i.setProduto(p);
+						
+						// Verificar quantidade disponivel em estoque
+						if(i.getQtd() > p.getQuantidade()) {
+							throw new semEstoqueException();
+						} else {
+							p.setQuantidade( (p.getQuantidade() - i.getQtd()) ); 
+						}						
+					}
+					
+					total = p.getPreco() * i.getQtd();
+					i.setValorItem(total);					
+				}
+			}
+			
+			pedido.setValorTotal(total);
+			
+			Pedidos.add(pedido);
+				
+		} else {
+			throw new semItensNoPedidoException();
+		}
 	}	
 	
 }
