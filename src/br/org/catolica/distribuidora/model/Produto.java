@@ -3,10 +3,10 @@ package br.org.catolica.distribuidora.model;
 import java.util.List;
 
 public class Produto {
-	private String Nome;
+	private String nome;
 	private String validade;
-	private String Descricao;
-	private String UnidadeMedida;
+	private String descricao;
+	private String unidadeMedida;
 	private Double volume;
 	private int cod;
 	private double quantidade;
@@ -21,10 +21,10 @@ public class Produto {
 		this.cod = cod;
 	}
 	public String getNome() {
-		return Nome;
+		return nome;
 	}
 	public void setNome(String nome) {
-		Nome = nome;
+		this.nome = nome;
 	}
 
 	public String getValidade() {
@@ -41,16 +41,16 @@ public class Produto {
 		this.ingradientes = ingradientes;
 	}
 	public String getDescricao() {
-		return Descricao;
+		return descricao;
 	}
 	public void setDescricao(String descricao) {
-		Descricao = descricao;
+		this.descricao = descricao;
 	}
 	public String getUnidadeMedida() {
-		return UnidadeMedida;
+		return unidadeMedida;
 	}
 	public void setUnidadeMedida(String unidadeMedida) {
-		UnidadeMedida = unidadeMedida;
+		this.unidadeMedida = unidadeMedida;
 	}
 	public Double getVolume() {
 		return volume;
