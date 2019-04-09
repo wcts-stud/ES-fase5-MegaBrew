@@ -23,8 +23,7 @@ public class Item {
 		return valorItem;
 	}
 	public void setValorItem(double valorItem) {
-		this.valorItem = 
-				this.produto.getPreco() * this.getQtd();
+		this.valorItem = valorItem;
 	}
 		
 }

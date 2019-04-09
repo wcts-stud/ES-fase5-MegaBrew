@@ -2,13 +2,8 @@ package br.org.catolica.distribuidora.model;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-
 public class Pedido {
 		private int id;
-		//@XmlElementWrapper(name = "itens")
-		//@XmlElement(name = "item")
 		private List<Item> itens;
 		private double valorTotal;
 		
